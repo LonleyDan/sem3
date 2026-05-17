@@ -14,6 +14,7 @@ public class RepairOrderDTO {
     private boolean accepted;
     private String diagnosticResults;
     private String repairTask;
+    private int repairCost;
 
     /**
      * Create repairOrderDTO that contains information of the bike, customer and the problem. 
@@ -37,6 +38,7 @@ public class RepairOrderDTO {
         this.accepted = true;
         this.diagnosticResults = "";
         this.repairTask = "";
+        this.repairCost = 0;
     }
 
     //Used Source action to quickly generate constructors, getter and setter for each property.
@@ -104,6 +106,12 @@ public class RepairOrderDTO {
         this.repairTask = repairTask;
     }
 
+    public int getRepairCost() {
+        return repairCost;
+    }
 
+    public void setRepairCost(int repairCost) {
+        this.repairCost = repairCost;
+    }
     
 }

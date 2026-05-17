@@ -1,7 +1,9 @@
 package se.kth.iv1350.seminar3.main;
 
 import se.kth.iv1350.seminar3.controller.Controller;
-import se.kth.iv1350.seminar3.integration.*;
+import se.kth.iv1350.seminar3.integration.CustomerRegistry;
+import se.kth.iv1350.seminar3.integration.Printer;
+import se.kth.iv1350.seminar3.integration.RepairOrderRegistry;
 import se.kth.iv1350.seminar3.view.View;
 
 /**

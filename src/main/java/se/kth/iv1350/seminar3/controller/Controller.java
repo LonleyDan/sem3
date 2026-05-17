@@ -1,12 +1,12 @@
 package se.kth.iv1350.seminar3.controller;
 
 import java.util.List;
+
 import se.kth.iv1350.seminar3.dto.CustomerDTO;
 import se.kth.iv1350.seminar3.dto.RepairOrderDTO;
 import se.kth.iv1350.seminar3.integration.CustomerRegistry;
 import se.kth.iv1350.seminar3.integration.Printer;
 import se.kth.iv1350.seminar3.integration.RepairOrderRegistry;
-import se.kth.iv1350.seminar3.model.CustomerData;
 import se.kth.iv1350.seminar3.model.RepairOrder;
 
 
@@ -14,7 +14,6 @@ import se.kth.iv1350.seminar3.model.RepairOrder;
  * Controller class that calls model and integration requested by view. 
  */
 public class Controller {
-    private CustomerData customerData;
     private RepairOrder repairOrder;
     final private CustomerRegistry customReg;
     final private RepairOrderRegistry repairOrdReg;
@@ -27,7 +26,6 @@ public class Controller {
      * @param printer
      */
     public Controller(CustomerRegistry customReg, RepairOrderRegistry repairOrdReg, Printer printer){
-        customerData = new CustomerData();
         repairOrder = new RepairOrder();
         this.customReg = customReg;
         this.repairOrdReg = repairOrdReg;
@@ -54,7 +52,7 @@ public class Controller {
      * @param phoneNumber Customers phone number.
      */
     public void addCustomerData(String bikeBrand, int bikeModel, int bikeSerialNo, String email, String name, String phoneNumber ){
-        CustomerDTO  customerDTO = customerData.createCustomerDTO(bikeBrand, bikeModel, bikeSerialNo, email, name, phoneNumber);
+        CustomerDTO  customerDTO = new CustomerDTO(bikeBrand, bikeModel, bikeSerialNo, email, name, phoneNumber);
         customReg.addCustomer(customerDTO);
     }
 
@@ -98,7 +96,8 @@ public class Controller {
      * @param diagTaskResults The diagnostics of the bike.
      */
     public void addDiagnosticResults(int repairOrderId, String diagTaskResults){
-        repairOrdReg.addDiagnosticResults(repairOrderId, diagTaskResults);
+        RepairOrderDTO repairOrderDTO = repairOrdReg.findRepairOrder(repairOrderId);
+        repairOrder.addDiagnosticResults(repairOrderDTO, diagTaskResults);
     }
 
     /**
@@ -107,8 +106,9 @@ public class Controller {
      * @param repairOrderId The repairOrderId.
      * @param repairTask The task needed to repair the bike.
      */
-    public void addRepairTask(int repairOrderId, String repairTask){
-        repairOrdReg.addRepairTask(repairOrderId, repairTask);
+    public void addRepairTask(int repairOrderId, String repairTask, int repairCost){
+        RepairOrderDTO repairOrderDTO = repairOrdReg.findRepairOrder(repairOrderId);
+        repairOrder.addRepairTask(repairOrderDTO, repairTask, repairCost);
     }
 
     /**
@@ -119,12 +119,12 @@ public class Controller {
      * @param repairOrderAccepted
      */
     public void repairOrderAccepted(int repairOrderId,Boolean repairOrderAccepted){
+        RepairOrderDTO repairOrderDTO = repairOrdReg.findRepairOrder(repairOrderId);
         if (repairOrderAccepted == true){
-            repairOrdReg.updateRepairOrder(repairOrderId, repairOrderAccepted);
-            RepairOrderDTO repairOrderDTO = repairOrdReg.findRepairOrder(repairOrderId);
+            repairOrder.updateRepairOrder(repairOrderDTO, repairOrderAccepted);
             printer.printOut(repairOrderDTO);
         }else{
-            repairOrdReg.updateRepairOrder(repairOrderId, repairOrderAccepted);
+            repairOrder.updateRepairOrder(repairOrderDTO, repairOrderAccepted);
         }
     }
 }

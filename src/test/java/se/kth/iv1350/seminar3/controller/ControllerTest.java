@@ -31,37 +31,37 @@ public class ControllerTest {
     @Test
     void testfindCustomer(){
         CustomerDTO testCustomer= contr.findCustomer("674525343");
-        assertNull(testCustomer);
+        assertNull(testCustomer,"Customer null");
         contr.addCustomerData("Monster", 2545, 109497, "dan.frees@gmail.com", "Dan Frees", "07502823043");
         CustomerDTO testCustomer2 = contr.findCustomer("07502823043");
-        assertNotNull(testCustomer2);
-        assertEquals("07502823043",testCustomer2.getPhoneNumber());
+        assertNotNull(testCustomer2,"Customer2 null");
+        assertEquals("07502823043",testCustomer2.getPhoneNumber(),"Incorrect phonenumber");
     }
 
     @Test
     void testAddCustomer(){
         contr.addCustomerData("Monster", 2545, 109497, "dan.frees@gmail.com", "Dan Frees", "07502823043");
         CustomerDTO testCustomer = contr.findCustomer("07502823043");
-        assertNotNull(testCustomer);
-        assertEquals("Monster", testCustomer.getBikeBrand());
-        assertEquals(2545, testCustomer.getBikeModel());
-        assertEquals(109497, testCustomer.getBikeSerialNo());
+        assertNotNull(testCustomer,"Customer null");
+        assertEquals("Monster", testCustomer.getBikeBrand(),"Incorrect bikeBrand");
+        assertEquals(2545, testCustomer.getBikeModel(),"Incorrect bikeModel");
+        assertEquals(109497, testCustomer.getBikeSerialNo(),"Incorrect bikeSerialNo");
     }
 
     @Test
     void testCreateRepairOrder(){
         contr.createRepairOrder("brakes do not work.", 109497, "07502823043", 1);
         RepairOrderDTO repairOrder = contr.findRepairOrder("07502823043");
-        assertNotNull(repairOrder);
-        assertEquals("brakes do not work.", repairOrder.getCustomerDescr());
+        assertNotNull(repairOrder,"Repair order null");
+        assertEquals("brakes do not work.", repairOrder.getCustomerDescr(), "Incorrect customer description.");
     }
     @Test
     void testFindRepairOrder() {
         contr.createRepairOrder("brakes do not work.",109497,"07502823043",1);
         RepairOrderDTO repairOrder = contr.findRepairOrder("07502823043");
-        assertNotNull(repairOrder);
-        assertEquals("07502823043", repairOrder.getCustomerPhone());
-        assertEquals("brakes do not work.", repairOrder.getCustomerDescr());
+        assertNotNull(repairOrder,"Repair order null");
+        assertEquals("07502823043", repairOrder.getCustomerPhone(), "Incorrect customer Phone Number.");
+        assertEquals("brakes do not work.", repairOrder.getCustomerDescr(),"Incorrect customer description.");
     }
 
     @Test
@@ -69,10 +69,10 @@ public class ControllerTest {
         contr.createRepairOrder("brakes do not work.",109497,"07502823043",1);
         contr.createRepairOrder("chains are broken.",23442,"0302843343",4);
         List<RepairOrderDTO> repairList = contr.findAllRepairOrders();
-        assertNotNull(repairList);
+        assertNotNull(repairList,"Repairlist null");
         assertEquals(2, repairList.size());
-        assertEquals("07502823043", repairList.get(0).getCustomerPhone());
-        assertEquals("0302843343", repairList.get(1).getCustomerPhone());
+        assertEquals("07502823043", repairList.get(0).getCustomerPhone(),"Incorrect customer phone number.");
+        assertEquals("0302843343", repairList.get(1).getCustomerPhone(),"Incorrect customer phone number.");
     }
 
     @Test
@@ -80,17 +80,18 @@ public class ControllerTest {
         contr.createRepairOrder("brakes do not work.",109497,"07502823043",1);
         contr.addDiagnosticResults(1, "brake string has losen up.");
         RepairOrderDTO repairOrder = contr.findRepairOrder("07502823043");
-        assertNotNull(repairOrder);
-        assertEquals("brake string has losen up.", repairOrder.getDiagnosticResults());
+        assertNotNull(repairOrder,"Repair order null");
+        assertEquals("brake string has losen up.", repairOrder.getDiagnosticResults(),"Inccorect diagnostic results.");
     }
 
     @Test
     void testAddRepairTask(){
         contr.createRepairOrder("chains are broken.",23442,"0302843343",4);
-        contr.addRepairTask(4, "Change brake string.");
+        contr.addRepairTask(4, "Change brake string.", 500);
         RepairOrderDTO repairOrder = contr.findRepairOrder("0302843343");
-        assertNotNull(repairOrder);
-        assertEquals("Change brake string.", repairOrder.getRepairTask());
+        assertNotNull(repairOrder,"Repair order null");
+        assertEquals("Change brake string.", repairOrder.getRepairTask(), "Inccorect repairTask.");
+        assertEquals(500, repairOrder.getRepairCost(), "Repair Cost not equal to 500.");
     }
 
     @Test
@@ -98,7 +99,7 @@ public class ControllerTest {
         contr.createRepairOrder("brakes do not work.", 109497, "07502823043", 1);
         contr.repairOrderAccepted(1, true);
         RepairOrderDTO order = contr.findRepairOrder("07502823043");
-        assertTrue(order.isAccepted());
+        assertTrue(order.isAccepted(), "Not accepted.");
     }
     
     @Test
@@ -106,7 +107,7 @@ public class ControllerTest {
         contr.createRepairOrder("brakes do not work.", 109497, "07502823043", 1);
         contr.repairOrderAccepted(1, false);
         RepairOrderDTO order = contr.findRepairOrder("07502823043");
-        assertFalse(order.isAccepted());
+        assertFalse(order.isAccepted(),"Not rejected.");
     }
 
 }

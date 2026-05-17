@@ -10,11 +10,12 @@ public class Printer {
      * @param repairOrderDTO
      */
     public void printOut(RepairOrderDTO repairOrderDTO){
-        // wont print out customer information assuming the ID is correct. 
         System.out.println("Repair Order");
         System.out.println("ID: " + repairOrderDTO.getRepairOrderId());
         System.out.println("Status: " + repairOrderDTO.getStatus());
         System.out.println("Diagnostic Results: " + repairOrderDTO.getDiagnosticResults());
+        System.out.println("Repair Tasks: " + repairOrderDTO.getRepairTask());
+        System.out.println("Repair Cost: " + repairOrderDTO.getRepairCost());
         System.out.println("Accepted: " + repairOrderDTO.isAccepted());
     }
 }

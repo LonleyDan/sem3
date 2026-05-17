@@ -44,7 +44,7 @@ public class View {
             System.err.println(orders.getCustomerPhone());
         }
         contr.addDiagnosticResults(1, "brake string has losen up.");
-        contr.addRepairTask(1, "Change brake string.");
+        contr.addRepairTask(1, "Change brake string.", 800);
         List<RepairOrderDTO> repairlist2 = contr.findAllRepairOrders();
         for (RepairOrderDTO orders:repairlist2){
             System.err.println("*******");
